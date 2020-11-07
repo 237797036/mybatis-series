@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.chat05.demo7.mapper.OrderMapper">
+
+    <resultMap id="orderModelMap1" type="com.zj.chat05.demo7.model.OrderModel">
+        <id column="id" property="id"/>
+        <result column="userId" property="userId" />
+        <result column="createTime" property="createTime" />
+        <result column="upTime" property="upTime" />
+    </resultMap>
+
+    <select id="getById1" resultMap="orderModelMap1">
+        <![CDATA[
+        SELECT
+            a.id,
+            a.user_id userId,
+            a.create_time createTime,
+            a.up_time upTime
+        FROM
+            t_order a
+        WHERE
+            a.id = #{value}
+        ]]>
+    </select>
+
+    <resultMap id="orderModelMap2" type="com.zj.chat05.demo7.model.OrderModel" autoMapping="true">
+    </resultMap>
+
+    <select id="getById2" resultMap="orderModelMap2">
+        <![CDATA[
+        SELECT
+            a.id,
+            a.user_id userId,
+            a.create_time createTime,
+            a.up_time upTime
+        FROM
+            t_order a
+        WHERE
+            a.id = #{value}
+        ]]>
+    </select>
+
+    <!-- 省略了autoMapping属性，一样可以自动映射，因为此时全局自动映射开关是打开的 -->
+    <resultMap id="orderModelMap3" type="com.zj.chat05.demo7.model.OrderModel">
+    </resultMap>
+
+    <select id="getById3" resultMap="orderModelMap3">
+        <![CDATA[
+        SELECT
+            a.id,
+            a.user_id userId,
+            a.create_time createTime,
+            a.up_time upTime
+        FROM
+            t_order a
+        WHERE
+            a.id = #{value}
+        ]]>
+    </select>
+
+    <resultMap id="orderModelMap4" type="com.zj.chat05.demo7.model.OrderModel">
+    </resultMap>
+
+    <select id="getById4" resultMap="orderModelMap4">
+        <![CDATA[
+        SELECT
+            a.id,
+            a.user_id userId,
+            a.create_time createTime,
+            a.up_time upTime
+        FROM
+            t_order a
+        WHERE
+            a.id = #{value}
+        ]]>
+    </select>
+
+    <resultMap id="orderModelMap5" type="com.zj.chat05.demo7.model.OrderModel">
+    </resultMap>
+
+    <select id="getById5" resultMap="orderModelMap5">
+        <![CDATA[
+        SELECT
+            a.id,
+            a.user_id userId,
+            a.create_time createTime,
+            a.up_time upTime
+        FROM
+            t_order a
+        WHERE
+            a.id = #{value}
+        ]]>
+    </select>
+
+    <resultMap id="orderModelMap6" type="com.zj.chat05.demo7.model.OrderModel">
+        <association property="userModel">
+            <id column="user_id" property="id"/>
+        </association>
+    </resultMap>
+
+    <select id="getById6" resultMap="orderModelMap6">
+        <![CDATA[
+        SELECT
+            a.id,
+            a.user_id userId,
+            a.create_time createTime,
+            a.up_time upTime,
+            b.id as user_id,
+            b.name
+        FROM
+            t_order a,t_user b
+        WHERE
+            a.user_id = b.id
+            AND a.id = #{value}
+        ]]>
+    </select>
+
+
+    <resultMap id="orderModelMap7" type="com.zj.chat05.demo7.model.OrderModel" autoMapping="true">
+        <association property="userModel" autoMapping="true">
+            <id column="user_id" property="id"/>
+        </association>
+    </resultMap>
+
+    <select id="getById7" resultMap="orderModelMap7">
+        <![CDATA[
+        SELECT
+            a.id,
+            a.user_id userId,
+            a.create_time createTime,
+            a.up_time upTime,
+            b.id as user_id,
+            b.name
+        FROM
+            t_order a,t_user b
+        WHERE
+            a.user_id = b.id
+            AND a.id = #{value}
+        ]]>
+    </select>
+
+    <resultMap id="orderModelMap8" type="com.zj.chat05.demo7.model.OrderModel" autoMapping="true">
+        <id column="id" property="id" />
+        <collection property="orderDetailModelList" select="com.zj.chat05.demo7.mapper.OrderDetailMapper.getListByOrderId1" column="id"/>
+    </resultMap>
+
+    <select id="getById8" resultMap="orderModelMap8">
+        <![CDATA[
+        SELECT
+            a.id,
+            a.user_id userId,
+            a.create_time createTime,
+            a.up_time upTime
+        FROM
+            t_order a
+        WHERE a.id = #{value}
+        ]]>
+    </select>
+
+
+</mapper>

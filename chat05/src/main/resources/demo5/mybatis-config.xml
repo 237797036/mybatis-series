@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 引入外部jdbc配置 -->
+    <properties resource="jdbc.properties"/>
+    <settings>
+        <!--打开延迟加载的开关  -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!-- 当为true的时候，调用任意延迟属性，会去加载所有延迟属性，如果为false，则调用某个属性的时候，只会加载指定的属性 -->
+        <setting name="aggressiveLazyLoading" value="true"/>
+    </settings>
+    <!-- 环境配置，可以配置多个环境 -->
+    <environments default="demo5">
+        <environment id="demo5">
+            <!-- 事务管理器工厂配置 -->
+            <transactionManager type="JDBC"/>
+            <!-- 数据源工厂配置，使用工厂来创建数据源 -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper resource="demo5/mapper/UserMapper.xml" />
+        <mapper resource="demo5/mapper/GoodsMapper.xml" />
+        <mapper resource="demo5/mapper/OrderMapper.xml" />
+        <mapper resource="demo5/mapper/OrderDetailMapper.xml" />
+    </mappers>
+</configuration>

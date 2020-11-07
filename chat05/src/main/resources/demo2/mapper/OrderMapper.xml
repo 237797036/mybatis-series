@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.chat05.demo2.mapper.OrderMapper">
+
+    <resultMap id="orderModelMap1" type="com.zj.chat05.demo2.model.OrderModel">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="up_time" property="upTime"/>
+        <result column="user_id" property="userModel.id"/>
+        <result column="name" property="userModel.name"/>
+    </resultMap>
+
+    <select id="getById1" resultMap="orderModelMap1">
+        <![CDATA[
+        SELECT
+            a.id,
+            a.user_id,
+            a.create_time,
+            a.up_time,
+            b.name
+        FROM
+            t_order a,
+            t_user b
+        WHERE
+            a.user_id = b.id
+        AND a.id = #{value}
+        ]]>
+    </select>
+
+    <resultMap id="orderModelMap2" type="com.zj.chat05.demo2.model.OrderModel">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="up_time" property="upTime"/>
+        <association property="userModel">
+            <id column="user_id" property="id"/>
+            <result column="name" property="name" />
+        </association>
+    </resultMap>
+
+    <select id="getById2" resultMap="orderModelMap2">
+        <![CDATA[
+        SELECT
+            a.id,
+            a.user_id,
+            a.create_time,
+            a.up_time,
+            b.name
+        FROM
+            t_order a,
+            t_user b
+        WHERE
+            a.user_id = b.id
+        AND a.id = #{value}
+        ]]>
+    </select>
+
+    <resultMap id="orderModelMap3" type="com.zj.chat05.demo2.model.OrderModel">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="up_time" property="upTime"/>
+        <association property="userModel" select="com.zj.chat05.demo2.mapper.UserMapper.getById" column="user_id" />
+    </resultMap>
+
+    <select id="getById3" resultMap="orderModelMap3">
+        <![CDATA[
+        SELECT
+            a.id,
+            a.user_id,
+            a.create_time,
+            a.up_time
+        FROM
+            t_order a
+        WHERE
+            a.id = #{value}
+        ]]>
+    </select>
+
+    <resultMap id="orderModelMap4" type="com.zj.chat05.demo2.model.OrderModel">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="up_time" property="upTime"/>
+        <association property="userModel" select="com.zj.chat05.demo2.mapper.UserMapper.getById1" column="{uid1=user_id,uid2=create_time}" />
+    </resultMap>
+
+    <select id="getById4" resultMap="orderModelMap4">
+        <![CDATA[
+        SELECT
+            a.id,
+            a.user_id,
+            a.create_time,
+            a.up_time
+        FROM
+            t_order a
+        WHERE
+            a.id = #{value}
+        ]]>
+    </select>
+</mapper>

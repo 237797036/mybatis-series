@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.chat05.demo8.mapper.UserMapper">
+
+    <sql id="findSql">
+        <where>
+            <if test="id!=null">
+                AND id = #{id}
+            </if>
+            <if test="name!=null and name.toString()!=''">
+                AND name = #{name}
+            </if>
+            <if test="age!=null">
+                AND age = #{age}
+            </if>
+            <if test="idList!=null and idList.size()>=1">
+                <foreach collection="idList" item="id" open="AND id in (" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="likeName!=null and likeName.trim()!=''">
+              <bind name="nameLike" value="'%'+likeName.trim()+'%'" />
+              AND name like #{nameLike}
+            </if>
+        </where>
+    </sql>
+
+    <select id="getList1" resultType="com.zj.chat05.demo8.model.UserModel" parameterType="map">
+        SELECT id,name,age FROM t_user
+        <include refid="com.zj.chat05.demo8.mapper.UserMapper.findSql" />
+        <if test="orderSql">
+            ${orderSql}
+        </if>
+    </select>
+
+    <select id="getList1Count" resultType="com.zj.chat05.demo8.model.UserModel" parameterType="map">
+        SELECT count(*) FROM t_user
+        <include refid="findSql" />
+    </select>
+
+
+    <select id="getList2" resultType="com.zj.chat05.demo8.model.UserModel" parameterType="map">
+        SELECT id,name,age FROM t_user
+        <where>
+            <choose>
+                <when test="id!=null">
+                    AND id = #{id}
+                </when>
+                <when test="name!=null and name.toString()!=''">
+                    AND name = #{name}
+                </when>
+                <when test="age!=null">
+                    AND age = #{age}
+                </when>
+            </choose>
+        </where>
+    </select>
+
+
+    <update id="update1" parameterType="com.zj.chat05.demo8.model.UserModel">
+        UPDATE t_user
+        <trim prefix="SET" prefixOverrides="," suffixOverrides=",">
+            <if test="name!=null">
+                name = #{name},
+            </if>
+            <if test="age!=null">
+                age = #{age},
+            </if>
+        </trim>
+        <where>
+            <if test="id!=null">
+                AND id = #{id}
+            </if>
+        </where>
+    </update>
+
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO t_user (id,name,age) VALUES
+        <foreach collection="collection" separator="," item="item">
+            (#{item.id}, #{item.name}, #{item.age})
+        </foreach>
+    </insert>
+
+</mapper>
